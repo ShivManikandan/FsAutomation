@@ -11,30 +11,28 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
-public class Week2Day2_S0163_Edit_WorktypeNegative {
+public class Week2Day2_S0163_Edit_WorktypeNegative extends LoginBaseClass {
 	static String workTypeName;
+	
+	@BeforeClass(alwaysRun = true)
+	public void readData() {
 
-	public static void main(String[] args) throws InterruptedException {
-		WebDriverManager.chromedriver().setup();
-		ChromeOptions options = new ChromeOptions();
-		options.addArguments("--disable-notifications");
-		ChromeDriver driver = new ChromeDriver(options);
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-
-		// Login to the salesforce app
-		driver.get("https://login.salesforce.com");
-		driver.manage().window().maximize();
-		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
-		driver.findElement(By.id("username")).sendKeys("fullstack@testleaf.com");
-		driver.findElement(By.id("password")).sendKeys("SelBootcamp$123");
-		driver.findElement(By.id("Login")).click();
+		fileName = "TestData";
+		sheetName = "EditWorkTypeNegative";
+	}
+	
+	@Test(dataProvider="fetchdata",groups= {"regression"},retryAnalyzer=RetryFailedTestCase.class)
+	public  void EditWorkTypeNegative(String timeFrameEnd,String timeFrameStart)  throws InterruptedException {
+	
 		// click on toggle menu
 		driver.findElement(By.className("slds-icon-waffle")).click();
 
-		// click on viewall and select sales from the search launcher
+		// click on Viewall and select sales from the search launcher
 		driver.findElement(By.xpath("//button[text()='View All']")).click();
 		driver.findElement(By.xpath(" //input[@placeholder='Search apps or items...']")).sendKeys("Work Types");
 		driver.findElement(By.xpath("//mark[text()='Work Types']")).click();
@@ -61,7 +59,7 @@ public class Week2Day2_S0163_Edit_WorktypeNegative {
 		.clear();
 		driver.findElement(By.xpath(
 				"//span[text()='Timeframe Start']/parent::label//following-sibling::input[contains(@class,'uiInputSmartNumber')]"))
-		.sendKeys("9");
+		.sendKeys(timeFrameStart);
 
 		// Change the End Time Frame
 		driver.findElement(By.xpath(
@@ -69,7 +67,7 @@ public class Week2Day2_S0163_Edit_WorktypeNegative {
 		.clear();
 		driver.findElement(By.xpath(
 				"//span[text()='Timeframe End']/parent::label//following-sibling::input[contains(@class,'uiInputSmartNumber')]"))
-		.sendKeys("5");
+		.sendKeys(timeFrameEnd);
 
 		// click save
 		driver.findElement(By.xpath("//following-sibling::button[@title='Save']")).click();
@@ -80,18 +78,17 @@ public class Week2Day2_S0163_Edit_WorktypeNegative {
 		 * "//span[contains(@class,'toastMessage')]"), workTypeName));
 		 */
 		// verify TimeFrame Start success message
-		String timeFrameStart = driver.findElement(By.xpath("//span[text()='Timeframe Start']/ancestor::div[contains(@class,'uiInputNumber')]/following-sibling::ul[contains(@class,'has-error')]/li")).getText();
-		System.out.println(timeFrameStart);
-		Assert.assertEquals(timeFrameStart, "Enter a Timeframe End number that is greater than the Timeframe Start number.: Timeframe Start");
+		String timeFrameStartMessage = driver.findElement(By.xpath("//span[text()='Timeframe Start']/ancestor::div[contains(@class,'uiInputNumber')]/following-sibling::ul[contains(@class,'has-error')]/li")).getText();
+		System.out.println(timeFrameStartMessage);
+		Assert.assertEquals(timeFrameStartMessage, "Enter a Timeframe End number that is greater than the Timeframe Start number.: Timeframe Start");
 
 
 		// verify TimeFrame End success message
-		String timeFrameEnd = driver.findElement(By.xpath("//span[text()='Timeframe End']/ancestor::div[contains(@class,'uiInputNumber')]/following-sibling::ul[contains(@class,'has-error')]/li")).getText();
-		System.out.println(timeFrameEnd);
-		Assert.assertEquals(timeFrameEnd, "Enter a Timeframe End number that is greater than the Timeframe Start number.: Timeframe End");
+		String timeFrameEndMessage = driver.findElement(By.xpath("//span[text()='Timeframe End']/ancestor::div[contains(@class,'uiInputNumber')]/following-sibling::ul[contains(@class,'has-error')]/li")).getText();
+		System.out.println(timeFrameEndMessage);
+		Assert.assertEquals(timeFrameEndMessage, "Enter a Timeframe End number that is greater than the Timeframe Start number.: Timeframe End");
 
-		driver.quit();
-
+		
 	}
 
 }

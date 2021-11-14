@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Suite" verbose="5" parallel="methods"> 
+<!-- <suite name="Suite" verbose="5" parallel="methods" thread-count="2"> --> 
+<parameter name="url" value="https://login.salesforce.com"></parameter>
+<parameter name="username" value="fullstack@testleaf.com"></parameter>
+<parameter name="password" value="SelBootcamp$123"></parameter>
+
+  <test thread-count="5" name="Test">
+    <classes>
+      <!-- <class name="testNG.Week2Day2_S0151_Create_Worktype_WithoutMandatory"/> -->
+      <!--  <class name="testNG.Week2Day2_CreateNewWorkType"/>
+      <class name="testNG.Week2Day2_S0162_Edit_Worktype"/> -->
+      <!-- <class name="testNG.Week2Day2_S0164_Delete_Worktype"/>-->
+      <class name="testNG.Week2Day2_S0163_Edit_WorktypeNegative"/>
+    </classes>
+  </test> <!-- Test -->
+</suite> <!-- Suite -->

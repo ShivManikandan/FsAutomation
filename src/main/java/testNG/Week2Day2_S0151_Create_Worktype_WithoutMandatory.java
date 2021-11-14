@@ -10,14 +10,15 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class Week2Day2_S0151_Create_Worktype_WithoutMandatory extends LoginBaseClass{
 
-	@Test
-	public  void CreateWorkType() throws InterruptedException {
+	@Test (dataProvider="fetchdata")
+	public  void CreateWorkType(String Description) throws InterruptedException {
 		
 		
 		// click on toggle menu
@@ -41,7 +42,7 @@ public class Week2Day2_S0151_Create_Worktype_WithoutMandatory extends LoginBaseC
 		// Create new workgroup
 		Thread.sleep(1000);
 		
-		driver.findElement(By.xpath("//span[text()='Work Type Group Name']/parent::label/following-sibling::input")).sendKeys("Automation");
+		driver.findElement(By.xpath("//span[text()='Work Type Group Name']/parent::label/following-sibling::input")).sendKeys("Description");
 		driver.findElement(By.xpath("//a[@class='select']")).click();
 		driver.findElement(By.xpath("//a[@title='Capacity']")).click();
 		driver.findElement(By.xpath("//button[@title='Save']")).click();
@@ -53,6 +54,18 @@ public class Week2Day2_S0151_Create_Worktype_WithoutMandatory extends LoginBaseC
 		System.out.println(strValue);
 		Assert.assertEquals(strValue,"Work Type Group \""+finalMessage+"\" was created.");
 		
+		
 	}
+	@DataProvider(name="fetchdata")
+	public String[][] sendData()
+	{
+		String[][] data=new String[1][1];
+		
+		data[0][0]="Automation";
+		
+	return data;					
+				
+	}
+	
 
 }

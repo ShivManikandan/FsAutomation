@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="WorkTypeSuite">
+  <test thread-count="5" name="WorkType" verbose="5">
+    <classes>
+      <!-- <class name="testNG.CreateNewWorkType"/> -->
+     <class name="testNG.Week2Day2_S0162_Edit_Worktype"/> 
+     <class name="testNG.Week2Day2_S0163_Edit_WorktypeNegative"/> 
+     <class name="testNG.Week2Day2_S0164_Delete_Worktype"/> 
+    </classes>
+  </test> <!-- Test -->
+</suite> <!-- Suite -->
+
+  
+
+  

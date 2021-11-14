@@ -1,6 +1,7 @@
 package testNG;
 
 import java.time.Duration;
+import java.util.NoSuchElementException;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -11,26 +12,24 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
-public class Week2Day2_S0164_Delete_Worktype {
+public class Week2Day2_S0164_Delete_Worktype extends LoginBaseClass{
 	static String workTypeName;
+	@BeforeClass(alwaysRun = true)
+	public void readData() {
 
-	public static void main(String[] args) throws InterruptedException {
-		WebDriverManager.chromedriver().setup();
-		ChromeOptions options = new ChromeOptions();
-		options.addArguments("--disable-notifications");
-		ChromeDriver driver = new ChromeDriver(options);
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		fileName = "TestData";
+		sheetName = "EditWorkTypeNegative";
+	}
+	
+	@Test(groups= {"smoke","functional"},retryAnalyzer=RetryFailedTestCase.class)
 
-		// Login to the salesforce app
-		driver.get("https://login.salesforce.com");
-		driver.manage().window().maximize();
-		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
-		driver.findElement(By.id("username")).sendKeys("fullstack@testleaf.com");
-		driver.findElement(By.id("password")).sendKeys("SelBootcamp$123");
-		driver.findElement(By.id("Login")).click();
+	public  void DeleteWorkType()  throws InterruptedException  {
+		
 		// click on toggle menu
 		driver.findElement(By.className("slds-icon-waffle")).click();
 
@@ -62,13 +61,12 @@ public class Week2Day2_S0164_Delete_Worktype {
 		
 		// verify TimeFrame End success message
 		//verify success message
-				String finalMessage="Automation";
+				String finalMessage="Salesforce Project";
 				String strValue = driver.findElement(By.xpath("//span[contains(@class,'toastMessage') and contains(text(),'Work Type')]")).getText();
 				System.out.println(strValue);
 				Assert.assertEquals(strValue,"Work Type \""+finalMessage+"\" was deleted. Undo");
 				
-		driver.quit();
-
+		
 	}
 
 }
